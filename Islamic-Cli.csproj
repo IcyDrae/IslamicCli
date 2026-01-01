@@ -9,4 +9,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Include="data/dhikr.json" />
+  </ItemGroup>
+
 </Project>

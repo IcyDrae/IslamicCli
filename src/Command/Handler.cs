@@ -1,3 +1,4 @@
+using System.Reflection;
 using System.Text.Json;
 
 namespace IslamicCli.Command
@@ -128,13 +129,25 @@ namespace IslamicCli.Command
 
         private void HandleDhikr()
         {
-            var dhikrJson = File.ReadAllText("data/dhikr.json");
-            var dhikrs = JsonSerializer.Deserialize<List<Dhikr>>(dhikrJson,
+            var assembly = Assembly.GetExecutingAssembly();
+            var resourceName = "IslamicCli.data.dhikr.json";
+
+            using Stream? stream = assembly.GetManifestResourceStream(resourceName);
+            if (stream == null)
+            {
+                Console.WriteLine("Dhikr resource not found.");
+                return;
+            }
+
+            using StreamReader reader = new StreamReader(stream);
+            string json = reader.ReadToEnd();
+
+            var dhikrs = JsonSerializer.Deserialize<List<Dhikr>>(json,
             new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
-            if (dhikrs == null)
+            if (dhikrs == null || dhikrs.Count == 0)
             {
-                Console.WriteLine("No dhikr data found");
+                Console.WriteLine("No dhikr data found.");
                 return;
             }
 
