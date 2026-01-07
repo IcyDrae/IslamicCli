@@ -1,4 +1,4 @@
-namespace IslamicCli.Command
+namespace IslamicCli.Data
 {
     public class Dhikr
     {

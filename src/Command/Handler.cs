@@ -1,5 +1,7 @@
 using System.Reflection;
 using System.Text.Json;
+using IslamicCli.Http;
+using IslamicCli.Data;
 
 namespace IslamicCli.Command
 {
