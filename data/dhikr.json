@@ -22,7 +22,7 @@
   {
     "text": "Astaghfirullah",
     "translation": "I seek forgiveness from Allah",
-    "count": 1
+    "count": 3
   },
   {
     "text": "La hawla wa la quwwata illa billah",
@@ -72,6 +72,141 @@
   {
     "text": "La ilaha illallahu wahdahu la sharika lahu, lahul-mulku wa lahul-hamdu yuhyi wa yumitu wa huwa hayyun la yamutu abadan, abadan, zul-jalali wal-ikram",
     "translation": "There is no god but Allah alone, with no partner. His is the dominion and His is the praise, He gives life and causes death, and He is ever-living and never dies, Lord of Majesty and Honor",
+    "count": 1
+  },
+  {
+    "text": "La ilaha illallah, Muhammadur Rasulullah",
+    "translation": "There is no god but Allah, Muhammad is the Messenger of Allah",
+    "count": 3
+  },
+  {
+    "text": "Allahumma inni as'aluka al-jannah",
+    "translation": "O Allah, I ask You for Paradise",
+    "count": 1
+  },
+  {
+    "text": "Allahumma aghfir li",
+    "translation": "O Allah, forgive me",
+    "count": 3
+  },
+  {
+    "text": "La ilaha illa anta, subhanaka inni kuntu minaz-zalimin",
+    "translation": "There is no deity except You; exalted are You. Indeed, I have been of the wrongdoers",
+    "count": 1
+  },
+  {
+    "text": "Astaghfirullaha Rabbi min kulli dhambin wa atubu ilayh",
+    "translation": "I seek forgiveness from Allah, my Lord, from every sin and I repent to Him",
+    "count": 1
+  },
+  {
+    "text": "Allahumma inni a'udhu bika min sharri nafsi",
+    "translation": "O Allah, I seek refuge in You from the evil of myself",
+    "count": 1
+  },
+  {
+    "text": "Allahumma inni a'udhu bika min al-ma'thami wal-maghram",
+    "translation": "O Allah, I seek refuge in You from sin and debt",
+    "count": 1
+  },
+  {
+    "text": "SubhanAllahi wa bihamdihi SubhanAllahi al-azeem",
+    "translation": "Glory be to Allah and praise be to Him, Glory be to Allah the Great",
+    "count": 100
+  },
+  {
+    "text": "Allahumma inni a'udhu bika min al-kufri wal-faqr",
+    "translation": "O Allah, I seek refuge in You from disbelief and poverty",
+    "count": 1
+  },
+  {
+    "text": "Allahumma inni a'udhu bika min 'adhabi jahannam",
+    "translation": "O Allah, I seek refuge in You from the punishment of Hell",
+    "count": 1
+  },
+  {
+    "text": "Allahumma inni a'udhu bika min fitnatil-mahya wal-mamat",
+    "translation": "O Allah, I seek refuge in You from the trials of life and death",
+    "count": 1
+  },
+  {
+    "text": "Allahumma inni a'udhu bika min fitnatil-qabri wa 'adhabi jahannam",
+    "translation": "O Allah, I seek refuge in You from the trial of the grave and the punishment of Hell",
+    "count": 1
+  },
+  {
+    "text": "Allahumma inni a'udhu bika min al-kufri wal-ma'thami wal-maghram",
+    "translation": "O Allah, I seek refuge in You from disbelief, sin and debt",
+    "count": 1
+  },
+  {
+    "text": "SubhanAllahi wa bihamdihi, SubhanAllahi al-azeem, la ilaha illa Allah",
+    "translation": "Glory be to Allah and all praise is due to Him, Glory be to Allah the Great, there is no god but Allah",
+    "count": 100
+  },
+  {
+    "text": "Allahumma inni a'udhu bika min al-hammi wal-huzni wal-ajzi wal-kasali",
+    "translation": "O Allah, I seek refuge in You from worry, sorrow, incapacity and laziness",
+    "count": 1
+  },
+  {
+    "text": "Allahumma inni a'udhu bika min al-jubni wal-bukhli",
+    "translation": "O Allah, I seek refuge in You from cowardice and miserliness",
+    "count": 1
+  },
+  {
+    "text": "Allahumma inni a'udhu bika min ghalabatid-dayni wa qahrir-rijal",
+    "translation": "O Allah, I seek refuge in You from overwhelming debt and oppression of men",
+    "count": 1
+  },
+  {
+    "text": "Allahumma inni as'aluka al-afiyah",
+    "translation": "O Allah, I ask You for well-being",
+    "count": 1
+  },
+  {
+    "text": "Allahumma inni as'aluka al-jannah wa a'udhu bika min an-nar",
+    "translation": "O Allah, I ask You for Paradise and seek refuge in You from the Fire",
+    "count": 1
+  },
+  {
+    "text": "Allahumma inni as'aluka ilman nafi'an, wa rizqan tayyiban, wa 'amalan mutaqabbalan",
+    "translation": "O Allah, I ask You for beneficial knowledge, good provision and accepted deeds",
+    "count": 1
+  },
+  {
+    "text": "Allahumma inni a'udhu bika min fitnati dunya wa 'adhabi akhirah",
+    "translation": "O Allah, I seek refuge in You from the trials of this world and the punishment of the Hereafter",
+    "count": 1
+  },
+  {
+    "text": "Allahumma inni as'aluka hubbaka, wa hubba man yuhibbuka, wal-'amala allathee yuballighuni hubbaka",
+    "translation": "O Allah, I ask You for Your love, the love of those who love You, and deeds that bring me closer to Your love",
+    "count": 1
+  },
+  {
+    "text": "La ilaha illallahu wahdahu la sharika lahu",
+    "translation": "There is no god but Allah alone, with no partner",
+    "count": 1
+  },
+  {
+    "text": "SubhanAllahi wa bihamdihi, SubhanAllahi al-azeem, Allahumma salli 'ala Muhammad",
+    "translation": "Glory be to Allah and all praise is due to Him, Glory be to Allah the Great, O Allah send blessings upon Muhammad",
+    "count": 33
+  },
+  {
+    "text": "Allahumma inni a'udhu bika min sharri ma 'amiltu wa min sharri ma lam a'mal",
+    "translation": "O Allah, I seek refuge in You from the evil of what I have done and from the evil of what I have not done",
+    "count": 1
+  },
+  {
+    "text": "Astaghfirullaha wa atubu ilayh",
+    "translation": "I seek Allah's forgiveness and repent to Him",
+    "count": 1
+  },
+  {
+    "text": "Allahumma inni a'udhu bika min al-kufri wal-faqr wal-`ajzi wal-kasali",
+    "translation": "O Allah, I seek refuge in You from disbelief, poverty, incapacity and laziness",
     "count": 1
   }
 ]

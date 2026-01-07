@@ -41,6 +41,10 @@ Place islamic.exe in a folder that is included in your PATH.
 
 ``` islamic dhikr ```
 
+## Show a random dhikr:
+
+``` islamic dhikr --random ```
+
 ### Data Sources
 
 Prayer times: AlAdhan API

@@ -54,7 +54,7 @@ namespace IslamicCli.Command
                     await HandlePray(parameters);
                     break;
                 case "dhikr":
-                    HandleDhikr();
+                    await HandleDhikr(parameters);
                     break;
                 default:
                     Console.WriteLine($"Unknown command: {command}");
@@ -126,10 +126,31 @@ namespace IslamicCli.Command
             }
         }
 
-        private void HandleDhikr()
+        private async Task HandleDhikr(string[] parameters)
+        {
+            if (parameters.Length > 0 && parameters[0] == "--random")
+            {
+                await HandleRandomDhikr();
+            }
+            else
+            {
+                Stream Stream = GetAssemblyResource();
+
+                List<Dhikr> DhikrList = ReadAssemblyToJson(Stream);
+
+                if (DhikrList == null || DhikrList.Count == 0)
+                {
+                    Console.WriteLine("No dhikr data found.");
+                    return;
+                }
+
+                PrintDhikrSummary(DhikrList);
+            }
+        }
+
+        private async Task HandleRandomDhikr()
         {
             Stream Stream = GetAssemblyResource();
-
             List<Dhikr> DhikrList = ReadAssemblyToJson(Stream);
 
             if (DhikrList == null || DhikrList.Count == 0)
@@ -138,7 +159,15 @@ namespace IslamicCli.Command
                 return;
             }
 
-            PrintDhikrSummary(DhikrList);
+            Random Random = new Random();
+            int index = Random.Next(DhikrList.Count);
+            Dhikr RandomDhikr = DhikrList[index];
+
+            Console.WriteLine("Random Dhikr:");
+            Console.WriteLine("----------------------------------------------------------");
+            Console.WriteLine($"{RandomDhikr.Text} ({RandomDhikr.Translation}) - Repeat {RandomDhikr.Count} times");
+            Console.WriteLine("----------------------------------------------------------");
+            Console.WriteLine();
         }
 
         private async Task PrintPrayerTimeSummary((Dictionary<string, string>, string City, string Country) prayerTimes)
@@ -155,7 +184,7 @@ namespace IslamicCli.Command
         private void PrintDhikrSummary(List<Dhikr> dhikrs)
         {
             Console.WriteLine("Available Dhikr:");
-            Console.WriteLine("---------------------");
+            Console.WriteLine("----------------------------------------------------------");
             foreach (var dhikr in dhikrs)
             {
                 Console.WriteLine($"{dhikr.Text} ({dhikr.Translation}) - Repeat {dhikr.Count} times");
