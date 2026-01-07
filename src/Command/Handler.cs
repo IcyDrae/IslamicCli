@@ -68,18 +68,15 @@ namespace IslamicCli.Command
             }
             else
             {
-                Dictionary<string, string> prayerTimes = await Request.GetPrayerTimes();
+                (Dictionary<string, string>, string City, string Country) prayerTimes = await Request.GetPrayerTimes();
 
-                foreach (var kvp in prayerTimes)
-                {
-                    Console.WriteLine($"{kvp.Key}: {kvp.Value}");
-                }
+                await PrintPrayerTimeSummary(prayerTimes);
             }
         }
 
         private async Task HandlePrayNext(string parameter)
         {
-            Dictionary<string, string> prayerTimes = await Request.GetPrayerTimes();
+            (Dictionary<string, string>, string City, string Country) prayerTimes = await Request.GetPrayerTimes();
             DateTime now = DateTime.Now;
 
             DateTime? nextPrayerTime = null;
@@ -88,7 +85,7 @@ namespace IslamicCli.Command
             TimeSpan firstPrayerTimeTomorrow = TimeSpan.Zero;
             bool firstPrayerSet = false;
 
-            foreach (var kvp in prayerTimes)
+            foreach (var kvp in prayerTimes.Item1)
             {
                 // Skip unwanted keys for "next prayer" calculation
                 if (kvp.Key == "Sunrise" || kvp.Key == "Midnight" || kvp.Key == "Last third of the night")
@@ -129,34 +126,65 @@ namespace IslamicCli.Command
 
         private void HandleDhikr()
         {
-            var assembly = Assembly.GetExecutingAssembly();
-            var resourceName = "IslamicCli.data.dhikr.json";
+            Stream Stream = GetAssemblyResource();
 
-            using Stream? stream = assembly.GetManifestResourceStream(resourceName);
-            if (stream == null)
-            {
-                Console.WriteLine("Dhikr resource not found.");
-                return;
-            }
+            List<Dhikr> DhikrList = ReadAssemblyToJson(Stream);
 
-            using StreamReader reader = new StreamReader(stream);
-            string json = reader.ReadToEnd();
-
-            var dhikrs = JsonSerializer.Deserialize<List<Dhikr>>(json,
-            new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-
-            if (dhikrs == null || dhikrs.Count == 0)
+            if (DhikrList == null || DhikrList.Count == 0)
             {
                 Console.WriteLine("No dhikr data found.");
                 return;
             }
 
+            PrintDhikrSummary(DhikrList);
+        }
+
+        private async Task PrintPrayerTimeSummary((Dictionary<string, string>, string City, string Country) prayerTimes)
+        {
+            Console.WriteLine($"Today's prayer times for {prayerTimes.City}, {prayerTimes.Country}:");
+            Console.WriteLine("---------------------");
+            foreach (var kvp in prayerTimes.Item1)
+            {
+                Console.WriteLine($"{kvp.Key}: {kvp.Value}");
+            }
+            Console.WriteLine();
+        }
+
+        private void PrintDhikrSummary(List<Dhikr> dhikrs)
+        {
+            Console.WriteLine("Available Dhikr:");
+            Console.WriteLine("---------------------");
             foreach (var dhikr in dhikrs)
             {
                 Console.WriteLine($"{dhikr.Text} ({dhikr.Translation}) - Repeat {dhikr.Count} times");
                 Console.WriteLine("----------------------------------------------------------");
                 Console.WriteLine();
             }
+        }
+
+        private Stream GetAssemblyResource()
+        {
+            var assembly = Assembly.GetExecutingAssembly();
+            var resourceName = "IslamicCli.data.dhikr.json";
+
+            Stream? stream = assembly.GetManifestResourceStream(resourceName);
+            if (stream == null)
+            {
+                throw new FileNotFoundException("Embedded resource not found.", resourceName);
+            }
+
+            return stream;
+        }
+
+        private List<Dhikr> ReadAssemblyToJson(Stream Stream)
+        {
+            using StreamReader reader = new StreamReader(Stream);
+            string json = reader.ReadToEnd();
+
+            var dhikrs = JsonSerializer.Deserialize<List<Dhikr>>(json,
+            new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+            return dhikrs ?? new List<Dhikr>();
         }
     }
 }

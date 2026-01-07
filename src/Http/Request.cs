@@ -8,23 +8,29 @@ namespace IslamicCli.Command
 {
     internal class Request
     {
-        private static async Task<double[]> GetLocation()
+        private static async Task<(double Latitude,
+                                    double Longitude,
+                                    string City,
+                                    string Country)> GetLocation()
         {
-            double[] Coordinates = new double[2];
             string JsonResponse = await Make("http://ip-api.com/json/");
             using JsonDocument location = JsonDocument.Parse(JsonResponse);
 
-            Coordinates[0] = location.RootElement.GetProperty("lat").GetDouble();
-            Coordinates[1] = location.RootElement.GetProperty("lon").GetDouble();
+            double Latitude = location.RootElement.GetProperty("lat").GetDouble();
+            double Longitude = location.RootElement.GetProperty("lon").GetDouble();
+            string City = location.RootElement.GetProperty("city").GetString() ?? string.Empty;
+            string Country = location.RootElement.GetProperty("country").GetString() ?? string.Empty;
 
-            return Coordinates;
+            return (Latitude, Longitude, City, Country);
         }
 
-        public static async Task<Dictionary<string, string>> GetPrayerTimes()
+        public static async Task<(Dictionary<string, string>,
+                                    string City,
+                                    string Country)> GetPrayerTimes()
         {
-            double[] coords = await GetLocation();
-            double latitude = coords[0];
-            double longitude = coords[1];
+            var coords = await GetLocation();
+            double latitude = coords.Latitude;
+            double longitude = coords.Longitude;
             string url = $"https://api.aladhan.com/timings/now?latitude={latitude}&longitude={longitude}&method=3";
             string JsonResponse = await Make(url);
             using JsonDocument prayerData = JsonDocument.Parse(JsonResponse);
@@ -49,7 +55,7 @@ namespace IslamicCli.Command
                 }
             }
 
-            return prayerTimes;
+            return (prayerTimes, coords.City, coords.Country);
         }
 
         private static async Task<string> Make(string url)
