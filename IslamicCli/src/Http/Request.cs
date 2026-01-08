@@ -1,12 +1,8 @@
-using System;
-using System.Net.Http;
-using System.Threading.Tasks;
 using System.Text.Json;
-using System.Text.Json.Nodes;
 
 namespace IslamicCli.Http
 {
-    internal class Request
+    public class Request
     {
         private static async Task<(double Latitude,
                                     double Longitude,

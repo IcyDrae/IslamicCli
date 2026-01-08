@@ -19,11 +19,7 @@ namespace IslamicCli.Command.Prayer
             string Country
         )> All()
         {
-            (Dictionary<string, string>,
-            string City,
-            string Country) PrayerTimes = await Request.GetPrayerTimes();
-
-            return PrayerTimes;
+            return await _service.GetPrayerTimes();
         }
 
         public async Task<(DateTime? NextPrayerTime,

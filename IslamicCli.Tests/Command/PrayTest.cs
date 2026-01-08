@@ -7,6 +7,24 @@ namespace IslamicCli.Tests.Command;
 public class PrayTest
 {
     [Fact]
+    public async Task All_Returns_PrayerTimes_And_Location()
+    {
+        var fakeService = new FakePrayerTimeService();
+        var pray = new Pray(fakeService);
+
+        var result = await pray.All();
+
+        Assert.NotNull(result.Item1);
+        Assert.Equal("Tirana", result.City);
+        Assert.Equal("Albania", result.Country);
+        Assert.True(result.Item1.ContainsKey("Fajr"));
+        Assert.True(result.Item1.ContainsKey("Dhuhr"));
+        Assert.True(result.Item1.ContainsKey("Asr"));
+        Assert.True(result.Item1.ContainsKey("Maghrib"));
+        Assert.True(result.Item1.ContainsKey("Isha"));
+    }
+
+    [Fact]
     public async Task NextPrayer_ShouldReturn_Dhuhr_WhenTimeIs10AM()
     {
         var fakeService = new FakePrayerTimeService();

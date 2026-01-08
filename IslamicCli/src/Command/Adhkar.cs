@@ -4,7 +4,7 @@ using IslamicCli.Data;
 
 namespace IslamicCli.Command
 {
-    internal class Adhkar
+    public class Adhkar
     {
         public List<Dhikr>? GetAllAdhkar()
         {
