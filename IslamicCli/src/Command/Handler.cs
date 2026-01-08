@@ -106,17 +106,12 @@ namespace IslamicCli.Command
             else
             {
                 Adhkar Adhkar = new Adhkar();
-                Stream Stream = Adhkar.GetAssemblyResource();
+                List<Dhikr>? AdhkarList = Adhkar.GetAllAdhkar();
 
-                List<Dhikr> DhikrList = Adhkar.ReadAssemblyToJson(Stream);
-
-                if (DhikrList == null || DhikrList.Count == 0)
+                if (AdhkarList != null)
                 {
-                    Console.WriteLine("No dhikr data found.");
-                    return;
+                    PrintDhikrSummary(AdhkarList);
                 }
-
-                PrintDhikrSummary(DhikrList);
             }
         }
 

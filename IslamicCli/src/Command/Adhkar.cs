@@ -6,6 +6,21 @@ namespace IslamicCli.Command
 {
     internal class Adhkar
     {
+        public List<Dhikr>? GetAllAdhkar()
+        {
+            Stream Stream = this.GetAssemblyResource();
+
+            List<Dhikr> DhikrList = this.ReadAssemblyToJson(Stream);
+
+            if (DhikrList == null || DhikrList.Count == 0)
+            {
+                Console.WriteLine("No dhikr data found.");
+                return null;
+            }
+
+            return DhikrList;
+        }
+
         public Dhikr? GetRandomDhikr()
         {
             Stream Stream = this.GetAssemblyResource();
