@@ -2,6 +2,7 @@ using System.Reflection;
 using System.Text.Json;
 using IslamicCli.Http;
 using IslamicCli.Data;
+using IslamicCli.Command.Prayer;
 
 namespace IslamicCli.Command
 {
@@ -70,7 +71,7 @@ namespace IslamicCli.Command
             }
             else
             {
-                Pray Pray = new Pray();
+                Pray Pray = new Pray(new PrayerTimeService());
                 (Dictionary<string, string>,
                 string City,
                 string Country) prayerTimes = await Pray.All();
@@ -81,7 +82,7 @@ namespace IslamicCli.Command
 
         private async Task HandlePrayNext()
         {
-            var pray = new Pray();
+            var pray = new Pray(new PrayerTimeService());
             (DateTime? NextPrayerTime,
             string NextPrayerName,
             string FirstPrayerNameTomorrow,

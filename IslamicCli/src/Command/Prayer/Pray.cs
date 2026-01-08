@@ -1,9 +1,18 @@
 using IslamicCli.Http;
 
-namespace IslamicCli.Command
+namespace IslamicCli.Command.Prayer
 {
-    internal class Pray
+    public class Pray
     {
+        private readonly IPrayerTimeService _service;
+        private readonly Func<DateTime> _now;
+
+        public Pray(IPrayerTimeService service, Func<DateTime>? now = null)
+        {
+            _service = service;
+            _now = now ?? (() => DateTime.Now);
+        }
+
         public async Task<(
             Dictionary<string, string>,
             string City,
@@ -23,8 +32,8 @@ namespace IslamicCli.Command
                             TimeSpan FirstPrayerTimeTomorrow,
                             DateTime Now)> Next()
         {
-            (Dictionary<string, string>, string City, string Country) prayerTimes = await Request.GetPrayerTimes();
-            DateTime Now = DateTime.Now;
+            var prayerTimes = await _service.GetPrayerTimes();
+            DateTime Now = _now();
 
             DateTime? NextPrayerTime = null;
             string NextPrayerName = "";
