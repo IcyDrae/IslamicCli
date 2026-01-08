@@ -4,11 +4,24 @@ namespace IslamicCli.Command
 {
     internal class Pray
     {
+        public async Task<(
+            Dictionary<string, string>,
+            string City,
+            string Country
+        )> All()
+        {
+            (Dictionary<string, string>,
+            string City,
+            string Country) PrayerTimes = await Request.GetPrayerTimes();
+
+            return PrayerTimes;
+        }
+
         public async Task<(DateTime? NextPrayerTime,
                             string NextPrayerName,
                             string FirstPrayerNameTomorrow,
                             TimeSpan FirstPrayerTimeTomorrow,
-                            DateTime Now)> PrayNext()
+                            DateTime Now)> Next()
         {
             (Dictionary<string, string>, string City, string Country) prayerTimes = await Request.GetPrayerTimes();
             DateTime Now = DateTime.Now;

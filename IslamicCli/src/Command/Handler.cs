@@ -70,7 +70,10 @@ namespace IslamicCli.Command
             }
             else
             {
-                (Dictionary<string, string>, string City, string Country) prayerTimes = await Request.GetPrayerTimes();
+                Pray Pray = new Pray();
+                (Dictionary<string, string>,
+                string City,
+                string Country) prayerTimes = await Pray.All();
 
                 await PrintPrayerTimeSummary(prayerTimes);
             }
@@ -83,7 +86,7 @@ namespace IslamicCli.Command
             string NextPrayerName,
             string FirstPrayerNameTomorrow,
             TimeSpan FirstPrayerTimeTomorrow,
-            DateTime Now) = await pray.PrayNext();
+            DateTime Now) = await pray.Next();
 
             if (NextPrayerTime != null)
             {
