@@ -1,6 +1,7 @@
 using System.Reflection;
 using System.Text.Json;
 using IslamicCli.Data;
+using IslamicCli.Utilities;
 
 namespace IslamicCli.Command
 {
@@ -8,9 +9,10 @@ namespace IslamicCli.Command
     {
         public List<Dhikr>? GetAllAdhkar()
         {
-            Stream Stream = this.GetAssemblyResource();
+            string ResourceName = "IslamicCli.data.dhikr.json";
+            Stream Stream = EmbeddedResourceReader.GetAssemblyResource(ResourceName);
 
-            List<Dhikr> DhikrList = this.ReadAssemblyToJson(Stream);
+            List<Dhikr> DhikrList = EmbeddedResourceReader.ReadAssemblyToJson<Dhikr>(Stream);
 
             if (DhikrList == null || DhikrList.Count == 0)
             {
@@ -23,8 +25,9 @@ namespace IslamicCli.Command
 
         public Dhikr? GetRandomDhikr()
         {
-            Stream Stream = this.GetAssemblyResource();
-            List<Dhikr> DhikrList = this.ReadAssemblyToJson(Stream);
+            string ResourceName = "IslamicCli.data.dhikr.json";
+            Stream Stream = EmbeddedResourceReader.GetAssemblyResource(ResourceName);
+            List<Dhikr> DhikrList = EmbeddedResourceReader.ReadAssemblyToJson<Dhikr>(Stream);
 
             if (DhikrList == null || DhikrList.Count == 0)
             {
@@ -36,31 +39,6 @@ namespace IslamicCli.Command
             int index = Random.Next(DhikrList.Count);
             Dhikr RandomDhikr = DhikrList[index];
             return RandomDhikr;
-        }
-
-        public Stream GetAssemblyResource()
-        {
-            var assembly = Assembly.GetExecutingAssembly();
-            var resourceName = "IslamicCli.data.dhikr.json";
-
-            Stream? stream = assembly.GetManifestResourceStream(resourceName);
-            if (stream == null)
-            {
-                throw new FileNotFoundException("Embedded resource not found.", resourceName);
-            }
-
-            return stream;
-        }
-
-        public List<Dhikr> ReadAssemblyToJson(Stream Stream)
-        {
-            using StreamReader reader = new StreamReader(Stream);
-            string json = reader.ReadToEnd();
-
-            var dhikrs = JsonSerializer.Deserialize<List<Dhikr>>(json,
-            new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-
-            return dhikrs ?? new List<Dhikr>();
         }
     }
 }

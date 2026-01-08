@@ -3,6 +3,7 @@ using System.Text.Json;
 using IslamicCli.Http;
 using IslamicCli.Data;
 using IslamicCli.Command.Prayer;
+using System.Diagnostics;
 
 namespace IslamicCli.Command
 {
@@ -56,6 +57,12 @@ namespace IslamicCli.Command
                     break;
                 case "dhikr":
                     await HandleDhikr(parameters);
+                    break;
+                case "help":
+                    HandleHelp();
+                    break;
+                case "quran":
+                    HandleQuran(parameters);
                     break;
                 default:
                     Console.WriteLine($"Unknown command: {command}");
@@ -133,6 +140,32 @@ namespace IslamicCli.Command
             PrintRandomDhikrSummary(RandomDhikr);
         }
 
+        private void HandleQuran(string[] parameters)
+        {
+            Quran Quran = new Quran();
+            if (int.Parse(parameters[0]) > 114 || int.Parse(parameters[0]) < 1)
+            {
+                Console.WriteLine("Please provide a valid Surah number.");
+            }
+            else if (parameters.Length > 0 && int.TryParse(parameters[0], out int surahNumber))
+            {
+                string Surah = Quran.ReadSurah(surahNumber);
+                PrintScrollable(Surah);
+            }
+        }
+
+        private void HandleHelp()
+        {
+            Console.WriteLine("Islamic CLI Help:");
+            Console.WriteLine("Commands:");
+            Console.WriteLine("  pray               - Get today's prayer times");
+            Console.WriteLine("  pray --next        - Get the next prayer time");
+            Console.WriteLine("  dhikr              - List available dhikr");
+            Console.WriteLine("  dhikr --random     - Get a random dhikr");
+            Console.WriteLine("  quran <number>     - Read a Surah from the Quran");
+            Console.WriteLine("  help               - Show this help message");
+        }
+
         private async Task PrintPrayerTimeSummary((Dictionary<string, string>, string City, string Country) prayerTimes)
         {
             Console.WriteLine($"Today's prayer times for {prayerTimes.City}, {prayerTimes.Country}:");
@@ -163,6 +196,19 @@ namespace IslamicCli.Command
             Console.WriteLine($"{RandomDhikr.Text} ({RandomDhikr.Translation}) - Repeat {RandomDhikr.Count} times");
             Console.WriteLine("----------------------------------------------------------");
             Console.WriteLine();
+        }
+
+        private void PrintScrollable(string text)
+        {
+            var process = new Process();
+            process.StartInfo.FileName = "more";
+            process.StartInfo.RedirectStandardInput = true;
+            process.StartInfo.UseShellExecute = false;
+
+            process.Start();
+            process.StandardInput.Write(text);
+            process.StandardInput.Close();
+            process.WaitForExit();
         }
     }
 }

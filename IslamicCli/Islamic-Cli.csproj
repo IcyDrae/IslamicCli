@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <EmbeddedResource Include="data/dhikr.json" />
+    <EmbeddedResource Include="data/quran_en.json" />
   </ItemGroup>
 
 </Project>

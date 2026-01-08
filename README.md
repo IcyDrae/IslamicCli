@@ -45,6 +45,12 @@ Place islamic.exe in a folder that is included in your PATH.
 
 ``` islamic dhikr --random ```
 
+## Read a Surah from the Qur'an:
+
+``` islamic quran 1 ```
+
+until 114. Choose your Surah with its number.
+
 ### Data Sources
 
 Prayer times: AlAdhan API
