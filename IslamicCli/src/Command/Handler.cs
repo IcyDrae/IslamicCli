@@ -66,7 +66,7 @@ namespace IslamicCli.Command
         {
             if (parameters.Length > 0 && parameters[0] == "--next")
             {
-                await HandlePrayNext(parameters[0]);
+                await HandlePrayNext();
             }
             else
             {
@@ -76,53 +76,24 @@ namespace IslamicCli.Command
             }
         }
 
-        private async Task HandlePrayNext(string parameter)
+        private async Task HandlePrayNext()
         {
-            (Dictionary<string, string>, string City, string Country) prayerTimes = await Request.GetPrayerTimes();
-            DateTime now = DateTime.Now;
+            var pray = new Pray();
+            (DateTime? NextPrayerTime,
+            string NextPrayerName,
+            string FirstPrayerNameTomorrow,
+            TimeSpan FirstPrayerTimeTomorrow,
+            DateTime Now) = await pray.PrayNext();
 
-            DateTime? nextPrayerTime = null;
-            string nextPrayerName = "";
-            string firstPrayerNameTomorrow = "";
-            TimeSpan firstPrayerTimeTomorrow = TimeSpan.Zero;
-            bool firstPrayerSet = false;
-
-            foreach (var kvp in prayerTimes.Item1)
+            if (NextPrayerTime != null)
             {
-                // Skip unwanted keys for "next prayer" calculation
-                if (kvp.Key == "Sunrise" || kvp.Key == "Midnight" || kvp.Key == "Last third of the night")
-                    continue;
-
-                if (TimeSpan.TryParse(kvp.Value, out TimeSpan prayerTimeSpan))
-                {
-                    DateTime prayerTime = now.Date + prayerTimeSpan;
-
-                    if (!firstPrayerSet)
-                    {
-                        // Save the first prayer of the day (to wrap to tomorrow if needed)
-                        firstPrayerNameTomorrow = kvp.Key;
-                        firstPrayerTimeTomorrow = prayerTimeSpan;
-                        firstPrayerSet = true;
-                    }
-
-                    if (prayerTime > now)
-                    {
-                        nextPrayerTime = prayerTime;
-                        nextPrayerName = kvp.Key;
-                        break; // found the next prayer today
-                    }
-                }
-            }
-
-            if (nextPrayerTime != null)
-            {
-                Console.WriteLine($"Next prayer is {nextPrayerName} at {nextPrayerTime:HH:mm}");
+                Console.WriteLine($"Next prayer is {NextPrayerName} at {NextPrayerTime:HH:mm}");
             }
             else
             {
                 // All today's prayers passed, show the first prayer of tomorrow
-                DateTime tomorrowPrayer = now.Date.AddDays(1) + firstPrayerTimeTomorrow;
-                Console.WriteLine($"Next prayer is {firstPrayerNameTomorrow} at {tomorrowPrayer:HH:mm}");
+                DateTime TomorrowPrayer = Now.Date.AddDays(1) + FirstPrayerTimeTomorrow;
+                Console.WriteLine($"Next prayer is {FirstPrayerNameTomorrow} at {TomorrowPrayer:HH:mm}");
             }
         }
 
@@ -134,9 +105,10 @@ namespace IslamicCli.Command
             }
             else
             {
-                Stream Stream = GetAssemblyResource();
+                Adhkar Adhkar = new Adhkar();
+                Stream Stream = Adhkar.GetAssemblyResource();
 
-                List<Dhikr> DhikrList = ReadAssemblyToJson(Stream);
+                List<Dhikr> DhikrList = Adhkar.ReadAssemblyToJson(Stream);
 
                 if (DhikrList == null || DhikrList.Count == 0)
                 {
@@ -150,24 +122,16 @@ namespace IslamicCli.Command
 
         private async Task HandleRandomDhikr()
         {
-            Stream Stream = GetAssemblyResource();
-            List<Dhikr> DhikrList = ReadAssemblyToJson(Stream);
+            Adhkar Adhkar = new Adhkar();
+            Dhikr? RandomDhikr = Adhkar.GetRandomDhikr();
 
-            if (DhikrList == null || DhikrList.Count == 0)
+            if (RandomDhikr == null)
             {
                 Console.WriteLine("No dhikr data found.");
                 return;
             }
 
-            Random Random = new Random();
-            int index = Random.Next(DhikrList.Count);
-            Dhikr RandomDhikr = DhikrList[index];
-
-            Console.WriteLine("Random Dhikr:");
-            Console.WriteLine("----------------------------------------------------------");
-            Console.WriteLine($"{RandomDhikr.Text} ({RandomDhikr.Translation}) - Repeat {RandomDhikr.Count} times");
-            Console.WriteLine("----------------------------------------------------------");
-            Console.WriteLine();
+            PrintRandomDhikrSummary(RandomDhikr);
         }
 
         private async Task PrintPrayerTimeSummary((Dictionary<string, string>, string City, string Country) prayerTimes)
@@ -181,11 +145,11 @@ namespace IslamicCli.Command
             Console.WriteLine();
         }
 
-        private void PrintDhikrSummary(List<Dhikr> dhikrs)
+        private void PrintDhikrSummary(List<Dhikr> Adhkar)
         {
             Console.WriteLine("Available Dhikr:");
             Console.WriteLine("----------------------------------------------------------");
-            foreach (var dhikr in dhikrs)
+            foreach (var dhikr in Adhkar)
             {
                 Console.WriteLine($"{dhikr.Text} ({dhikr.Translation}) - Repeat {dhikr.Count} times");
                 Console.WriteLine("----------------------------------------------------------");
@@ -193,29 +157,13 @@ namespace IslamicCli.Command
             }
         }
 
-        private Stream GetAssemblyResource()
+        private void PrintRandomDhikrSummary(Dhikr RandomDhikr)
         {
-            var assembly = Assembly.GetExecutingAssembly();
-            var resourceName = "IslamicCli.data.dhikr.json";
-
-            Stream? stream = assembly.GetManifestResourceStream(resourceName);
-            if (stream == null)
-            {
-                throw new FileNotFoundException("Embedded resource not found.", resourceName);
-            }
-
-            return stream;
-        }
-
-        private List<Dhikr> ReadAssemblyToJson(Stream Stream)
-        {
-            using StreamReader reader = new StreamReader(Stream);
-            string json = reader.ReadToEnd();
-
-            var dhikrs = JsonSerializer.Deserialize<List<Dhikr>>(json,
-            new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-
-            return dhikrs ?? new List<Dhikr>();
+            Console.WriteLine("Random Dhikr:");
+            Console.WriteLine("----------------------------------------------------------");
+            Console.WriteLine($"{RandomDhikr.Text} ({RandomDhikr.Translation}) - Repeat {RandomDhikr.Count} times");
+            Console.WriteLine("----------------------------------------------------------");
+            Console.WriteLine();
         }
     }
 }
