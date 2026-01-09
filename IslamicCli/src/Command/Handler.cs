@@ -142,6 +142,12 @@ namespace IslamicCli.Command
 
         private void HandleQuran(string[] parameters)
         {
+            if (parameters.Length == 0)
+            {
+                Console.WriteLine("Please provide a Surah number.");
+                return;
+            }
+
             Quran Quran = new Quran();
             if (int.Parse(parameters[0]) > 114 || int.Parse(parameters[0]) < 1)
             {
