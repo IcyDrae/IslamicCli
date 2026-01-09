@@ -1,15 +1,15 @@
 # IslamicCli
 
-IslamicCli is a simple, cross-platform command-line application written in plain C# that provides daily Islamic utilities directly in the terminal.
-
-It focuses on prayer times and dhikr, fetched automatically based on your location, without manual configuration.
+IslamicCli is a simple, cross-platform command-line application written in C# that provides daily Islamic utilities directly in the terminal. It focuses on prayer times, dhikr, Qur'an reading, and Hijri dates, all fetched automatically based on your location without manual configuration.
 
 ## Features
 
-- Automatic prayer times based on your location (via IP)
+- Automatic prayer times based on your location (via Latitude and Longitude)
 - Display today’s full prayer schedule
 - Show the next upcoming prayer
 - A list of common Adhkar
+- Qur'an reading
+- Notifies 10 minutes before each prayer using an Adhan and a system notification.
 - Cross-platform support (Windows, Linux, macOS Intel & Apple Silicon)
 - Lightweight, fast, no external dependencies
 
@@ -35,7 +35,11 @@ Place islamic.exe in a folder that is included in your PATH.
 
 ## Show the next prayer:
 
-``` islamic pray next ```
+``` islamic pray --next ```
+
+## Notify 10 minutes before each prayer using an Adhan sound and a system notification:
+
+``` islamic notify ```
 
 ## Show a list of common adhkar:
 
@@ -56,6 +60,10 @@ This command also shows how many days are left until Ramadan begins and a Ramada
 
 ``` islamic hijri ```
 
+## Show recommended fasting days(weekly and monthly with a reminder if it is the current day):
+
+``` islamic fasting-days ```
+
 ### Data Sources
 
 Prayer times: AlAdhan API
@@ -63,6 +71,8 @@ Prayer times: AlAdhan API
 Dhikr: Local JSON file
 
 Qur'an: Local JSON file
+
+Adhan: Local mp3 file
 
 Hijri: HijriCalendar class from .NET library
 

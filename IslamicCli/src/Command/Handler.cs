@@ -53,6 +53,9 @@ namespace IslamicCli.Command
                 case "pray":
                     await HandlePray(parameters);
                     break;
+                case "notify":
+                    await HandleNotify();
+                    break;
                 case "dhikr":
                     await HandleDhikr(parameters);
                     break;
@@ -110,6 +113,15 @@ namespace IslamicCli.Command
                 DateTime TomorrowPrayer = Now.Date.AddDays(1) + FirstPrayerTimeTomorrow;
                 Console.WriteLine($"Next prayer is {FirstPrayerNameTomorrow} at {TomorrowPrayer:HH:mm}");
             }
+        }
+
+        private async Task HandleNotify()
+        {
+            var pray = new Pray(new PrayerTimeService());
+            var notifier = new PrayerNotifier(pray, DateTime.Now);
+            notifier.Start();
+
+            await Task.Delay(-1);
         }
 
         private async Task HandleDhikr(string[] parameters)
@@ -184,6 +196,7 @@ namespace IslamicCli.Command
             Console.WriteLine("Commands:");
             Console.WriteLine("  pray               - Get today's prayer times");
             Console.WriteLine("  pray --next        - Get the next prayer time");
+            Console.WriteLine("  notify             - Runs the process in the background. Notifies 10 minutes before each prayer time using an Adhan sound and a desktop notification");
             Console.WriteLine("  dhikr              - List available dhikr");
             Console.WriteLine("  dhikr --random     - Get a random dhikr");
             Console.WriteLine("  quran <number>     - Read a Surah from the Quran");
