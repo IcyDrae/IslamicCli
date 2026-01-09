@@ -1,6 +1,7 @@
 using IslamicCli.Data;
 using IslamicCli.Command.Prayer;
 using System.Diagnostics;
+using System.Globalization;
 
 namespace IslamicCli.Command
 {
@@ -63,6 +64,9 @@ namespace IslamicCli.Command
                     break;
                 case "hijri":
                     HandleHijriCalendar();
+                    break;
+                case "fasting-days":
+                    HandleFastingDays();
                     break;
                 default:
                     Console.WriteLine($"Unknown command: {command}");
@@ -167,6 +171,13 @@ namespace IslamicCli.Command
             Console.WriteLine(hijriDate);
         }
 
+        private void HandleFastingDays()
+        {
+            FastingDays fastingDays = new FastingDays();
+            string fastingInfo = fastingDays.GetFastingInfo();
+            Console.WriteLine(fastingInfo);
+        }
+
         private void HandleHelp()
         {
             Console.WriteLine("Islamic CLI Help:");
@@ -176,6 +187,8 @@ namespace IslamicCli.Command
             Console.WriteLine("  dhikr              - List available dhikr");
             Console.WriteLine("  dhikr --random     - Get a random dhikr");
             Console.WriteLine("  quran <number>     - Read a Surah from the Quran");
+            Console.WriteLine("  hijri              - Show the Hijri calendar for the current month with Ramadan info");
+            Console.WriteLine("  fasting-days       - Show recommended fasting days");
             Console.WriteLine("  help               - Show this help message");
         }
 
