@@ -1,6 +1,3 @@
-using System.Reflection;
-using System.Text.Json;
-using IslamicCli.Http;
 using IslamicCli.Data;
 using IslamicCli.Command.Prayer;
 using System.Diagnostics;
@@ -63,6 +60,9 @@ namespace IslamicCli.Command
                     break;
                 case "quran":
                     HandleQuran(parameters);
+                    break;
+                case "hijri":
+                    HandleHijriCalendar();
                     break;
                 default:
                     Console.WriteLine($"Unknown command: {command}");
@@ -158,6 +158,13 @@ namespace IslamicCli.Command
                 string Surah = Quran.ReadSurah(surahNumber);
                 PrintScrollable(Surah);
             }
+        }
+
+        private void HandleHijriCalendar()
+        {
+            Hijri Hijri = new Hijri();
+            string hijriDate = Hijri.GetHijriCalendar();
+            Console.WriteLine(hijriDate);
         }
 
         private void HandleHelp()

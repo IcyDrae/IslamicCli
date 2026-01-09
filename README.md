@@ -51,11 +51,20 @@ Place islamic.exe in a folder that is included in your PATH.
 
 until 114. Choose your Surah with its number.
 
+## Show the current Hijri month with month name transliterated, and the current day highlighted:
+This command also shows how many days are left until Ramadan begins and a Ramadan Mubarak message with how many days are left from Ramadan and in which day we currently are.
+
+``` islamic hijri ```
+
 ### Data Sources
 
 Prayer times: AlAdhan API
 
 Dhikr: Local JSON file
+
+Qur'an: Local JSON file
+
+Hijri: HijriCalendar class from .NET library
 
 ### Philosophy
 
