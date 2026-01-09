@@ -19,7 +19,7 @@ RID_MAP=(
 for RID in ${(k)RID_MAP}; do
   echo "Publishing for ${RID_MAP[$RID]} ($RID)..."
 
-  dotnet publish $PROJECT_PATH \
+  dotnet publish "$PROJECT_PATH/Islamic-Cli.csproj" \
     -c Release \
     -r $RID \
     --self-contained true \
