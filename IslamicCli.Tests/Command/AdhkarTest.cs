@@ -1,4 +1,6 @@
 using IslamicCli.Command;
+using IslamicCli.Data;
+using IslamicCli.Utilities;
 using Xunit;
 
 namespace IslamicCli.Tests.Command;
@@ -30,10 +32,9 @@ public class AdhkarTest
     [Fact]
     public void ReadAssemblyToJson_ParsesJsonCorrectly()
     {
-        var adhkar = new Adhkar();
-        var stream = adhkar.GetAssemblyResource();
-
-        var list = adhkar.ReadAssemblyToJson(stream);
+        string ResourceName = "IslamicCli.data.dhikr.json";
+        Stream stream = EmbeddedResourceReader.GetAssemblyResource(ResourceName);
+        List<Dhikr> list = EmbeddedResourceReader.ReadAssemblyToJson<Dhikr>(stream);
 
         Assert.NotNull(list);
         Assert.True(list.Count > 0);

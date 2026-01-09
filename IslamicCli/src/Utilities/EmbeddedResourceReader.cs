@@ -4,7 +4,7 @@ using IslamicCli.Data;
 
 namespace IslamicCli.Utilities
 {
-    internal static class EmbeddedResourceReader
+    public static class EmbeddedResourceReader
     {
         public static Stream GetAssemblyResource(string ResourceName)
         {
