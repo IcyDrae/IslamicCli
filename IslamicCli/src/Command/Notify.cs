@@ -7,7 +7,7 @@ using IslamicCli.Utilities;
 
 namespace IslamicCli.Command
 {
-    public class PrayerNotifier
+    public class Notify
     {
         private static bool _isRunning = false;
         private readonly Pray _pray;
@@ -15,7 +15,7 @@ namespace IslamicCli.Command
         private readonly HashSet<string> _notifiedPrayers = new();
         private readonly DateTime dateTime;
 
-        public PrayerNotifier(Pray prayService, DateTime? dateTime)
+        public Notify(Pray prayService, DateTime? dateTime)
         {
             _pray = prayService;
             this.dateTime = dateTime ?? DateTime.Now;
@@ -80,19 +80,26 @@ namespace IslamicCli.Command
                 delay = TimeSpan.Zero;
             }
 
-            Console.WriteLine($"Next notification for {nextPrayerInfo.NextPrayerName} in {delay.TotalMinutes:F1} minutes...");
+            int hours = (int)delay.TotalHours;
+            int minutes = delay.Minutes;
+            string timestamp = DateTime.Now.ToString("HH:mm");
+
+            Console.WriteLine(
+                $"[{timestamp}] Next notification for {nextPrayerInfo.NextPrayerName} at {nextPrayerInfo.NextPrayerTime:HH:mm} " +
+                $"in {hours}h {minutes}m..."
+            );
             Console.Out.Flush();
 
             await Task.Delay(delay);
 
             // Trigger notification
-            Notify(nextPrayerInfo.NextPrayerName, nextPrayerInfo.NextPrayerTime.Value);
+            NotifyWithNotification(nextPrayerInfo.NextPrayerName, nextPrayerInfo.NextPrayerTime.Value);
 
             // Mark as notified
             _notifiedPrayers.Add(nextPrayerInfo.NextPrayerName);
         }
 
-        private void Notify(string prayerName, DateTime prayerTime)
+        private void NotifyWithNotification(string prayerName, DateTime prayerTime)
         {
             string message = $"Next prayer: {prayerName} at {prayerTime:HH:mm} (in 10 minutes!)";
 

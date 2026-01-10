@@ -118,7 +118,7 @@ namespace IslamicCli.Command
         private async Task HandleNotify()
         {
             var pray = new Pray(new PrayerTimeService());
-            var notifier = new PrayerNotifier(pray, DateTime.Now);
+            var notifier = new Notify(pray, DateTime.Now);
             notifier.Start();
 
             await Task.Delay(-1);
