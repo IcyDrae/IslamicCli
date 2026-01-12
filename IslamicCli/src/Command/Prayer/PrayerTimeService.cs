@@ -12,5 +12,10 @@ namespace IslamicCli.Command.Prayer
         {
             return Request.GetPrayerTimes();
         }
+
+	public Task<(Dictionary<string, string>, string City, string Country)> GetTomorrow()
+	{
+            return Request.GetPrayerTimesTomorrow();
+        }
     }
 }

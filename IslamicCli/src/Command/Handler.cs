@@ -83,6 +83,10 @@ namespace IslamicCli.Command
             {
                 await HandlePrayNext();
             }
+	    else if (parameters.Length > 0 && parameters[0] == "--tomorrow")
+	    {
+                await HandlePrayTomorrow();
+            }
             else
             {
                 Pray Pray = new Pray(new PrayerTimeService());
@@ -92,6 +96,14 @@ namespace IslamicCli.Command
 
                 await PrintPrayerTimeSummary(prayerTimes);
             }
+        }
+
+	private async Task HandlePrayTomorrow()
+        {
+            Pray Pray = new Pray(new PrayerTimeService());
+            var Tomorrow = await Pray.Tomorrow();
+
+            await PrintPrayerTimeSummaryTomorrow(Tomorrow);
         }
 
         private async Task HandlePrayNext()
@@ -196,6 +208,7 @@ namespace IslamicCli.Command
             Console.WriteLine("Commands:");
             Console.WriteLine("  pray               - Get today's prayer times");
             Console.WriteLine("  pray --next        - Get the next prayer time");
+	    Console.WriteLine("  pray --tomorrow    - Get the prayer times for tomorrow");
             Console.WriteLine("  notify             - Runs the process in the background. Notifies 10 minutes before each prayer time using an Adhan sound and a desktop notification");
             Console.WriteLine("  dhikr              - List available dhikr");
             Console.WriteLine("  dhikr --random     - Get a random dhikr");
@@ -208,6 +221,17 @@ namespace IslamicCli.Command
         private async Task PrintPrayerTimeSummary((Dictionary<string, string>, string City, string Country) prayerTimes)
         {
             Console.WriteLine($"Today's prayer times for {prayerTimes.City}, {prayerTimes.Country}:");
+            Console.WriteLine("---------------------");
+            foreach (var kvp in prayerTimes.Item1)
+            {
+                Console.WriteLine($"{kvp.Key}: {kvp.Value}");
+            }
+            Console.WriteLine();
+        }
+
+	private async Task PrintPrayerTimeSummaryTomorrow((Dictionary<string, string>, string City, string Country) prayerTimes)
+        {
+            Console.WriteLine($"Tomorrow's prayer times for {prayerTimes.City}, {prayerTimes.Country}:");
             Console.WriteLine("---------------------");
             foreach (var kvp in prayerTimes.Item1)
             {

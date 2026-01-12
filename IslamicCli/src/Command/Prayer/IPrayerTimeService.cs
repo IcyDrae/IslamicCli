@@ -7,5 +7,7 @@ namespace IslamicCli.Command.Prayer
                 string City,
                 string Country
             )> GetPrayerTimes();
+
+	Task<(Dictionary<string, string>, string City, string Country)> GetTomorrow();
     }
 }
