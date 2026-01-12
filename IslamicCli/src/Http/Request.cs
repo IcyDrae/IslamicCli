@@ -52,7 +52,7 @@ namespace IslamicCli.Http
             return (prayerTimes, coords.City, coords.Country);
         }
 
-	public static async Task<(Dictionary<string, string>, string City, string Country)> GetPrayerTimesTomorrow()
+	    public static async Task<(Dictionary<string, string>, string City, string Country)> GetPrayerTimesTomorrow()
         {
             // Get date of tomorrow
             DateTime Today = DateTime.Now;

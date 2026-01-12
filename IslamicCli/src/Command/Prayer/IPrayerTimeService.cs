@@ -8,6 +8,6 @@ namespace IslamicCli.Command.Prayer
                 string Country
             )> GetPrayerTimes();
 
-	Task<(Dictionary<string, string>, string City, string Country)> GetTomorrow();
+	    Task<(Dictionary<string, string>, string City, string Country)> GetTomorrow();
     }
 }

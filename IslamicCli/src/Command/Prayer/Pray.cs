@@ -22,8 +22,8 @@ namespace IslamicCli.Command.Prayer
             return await _service.GetPrayerTimes();
         }
 
-	public async Task<(Dictionary <string, string>, string City, string Country)> Tomorrow()
-	{
+	    public async Task<(Dictionary <string, string>, string City, string Country)> Tomorrow()
+	    {
             return await _service.GetTomorrow();
         }
 
