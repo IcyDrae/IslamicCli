@@ -94,7 +94,7 @@ namespace IslamicCli.Command
                 string City,
                 string Country) prayerTimes = await Pray.All();
 
-                await PrintPrayerTimeSummary(prayerTimes);
+                await PrintPrayerTimeSummary(prayerTimes, "Today's");
             }
         }
 
@@ -103,7 +103,7 @@ namespace IslamicCli.Command
             Pray Pray = new Pray(new PrayerTimeService());
             var Tomorrow = await Pray.Tomorrow();
 
-            await PrintPrayerTimeSummaryTomorrow(Tomorrow);
+            await PrintPrayerTimeSummary(Tomorrow, "Tomorrow's");
         }
 
         private async Task HandlePrayNext()
@@ -218,20 +218,9 @@ namespace IslamicCli.Command
             Console.WriteLine("  help               - Show this help message");
         }
 
-        private async Task PrintPrayerTimeSummary((Dictionary<string, string>, string City, string Country) prayerTimes)
+        private async Task PrintPrayerTimeSummary((Dictionary<string, string>, string City, string Country) prayerTimes, string NameOfDay)
         {
-            Console.WriteLine($"Today's prayer times for {prayerTimes.City}, {prayerTimes.Country}:");
-            Console.WriteLine("---------------------");
-            foreach (var kvp in prayerTimes.Item1)
-            {
-                Console.WriteLine($"{kvp.Key}: {kvp.Value}");
-            }
-            Console.WriteLine();
-        }
-
-	    private async Task PrintPrayerTimeSummaryTomorrow((Dictionary<string, string>, string City, string Country) prayerTimes)
-        {
-            Console.WriteLine($"Tomorrow's prayer times for {prayerTimes.City}, {prayerTimes.Country}:");
+            Console.WriteLine($"{NameOfDay} prayer times for {prayerTimes.City}, {prayerTimes.Country}:");
             Console.WriteLine("---------------------");
             foreach (var kvp in prayerTimes.Item1)
             {
