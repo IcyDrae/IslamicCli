@@ -2,6 +2,7 @@ using IslamicCli.Data;
 using IslamicCli.Command.Prayer;
 using System.Diagnostics;
 using System.Globalization;
+using System.Text;
 
 namespace IslamicCli.Command
 {
@@ -70,6 +71,9 @@ namespace IslamicCli.Command
                     break;
                 case "fasting-days":
                     HandleFastingDays();
+                    break;
+                case "99":
+                    Handle99Names();
                     break;
                 default:
                     Console.WriteLine($"Unknown command: {command}");
@@ -202,6 +206,24 @@ namespace IslamicCli.Command
             Console.WriteLine(fastingInfo);
         }
 
+        private void Handle99Names()
+        {
+            NinetyNineNames Names = new NinetyNineNames();
+            List<NinetyNineNamesData>? NamesList = Names.GetAll();
+
+            if (NamesList != null)
+            {
+                StringBuilder StringBuilder = new StringBuilder();
+
+                foreach (var Name in NamesList)
+                {
+                    StringBuilder.AppendLine($"{Name.Arabic} - {Name.Transliteration} - {Name.English}");
+                }
+
+                PrintScrollable(StringBuilder.ToString());
+            }
+        }
+
         private void HandleHelp()
         {
             Console.WriteLine("Islamic CLI Help:");
@@ -215,6 +237,7 @@ namespace IslamicCli.Command
             Console.WriteLine("  quran <number>     - Read a Surah from the Quran");
             Console.WriteLine("  hijri              - Show the Hijri calendar for the current month with Ramadan info");
             Console.WriteLine("  fasting-days       - Show recommended fasting days");
+            Console.WriteLine("  99                 - Show the 99 Beautiful Names of Allah");
             Console.WriteLine("  help               - Show this help message");
         }
 

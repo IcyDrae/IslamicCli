@@ -68,6 +68,10 @@ This command also shows how many days are left until Ramadan begins and a Ramada
 
 ``` islamic fasting-days ```
 
+## Show the 99 Beautiful Names of Allah
+
+``` islamic 99  ```
+
 ### Data Sources
 
 Prayer times: AlAdhan API

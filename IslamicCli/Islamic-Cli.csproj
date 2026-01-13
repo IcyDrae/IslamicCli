@@ -15,6 +15,7 @@
     <EmbeddedResource Include="data/dhikr.json" />
     <EmbeddedResource Include="data/quran_en.json" />
     <EmbeddedResource Include="data/adhan.mp3" />
+    <EmbeddedResource Include="data/99names.json" />
   </ItemGroup>
 
   <ItemGroup>
