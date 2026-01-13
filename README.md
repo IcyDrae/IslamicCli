@@ -33,6 +33,10 @@ Place islamic.exe in a folder that is included in your PATH.
 
 ``` islamic pray ```
 
+## Show tomorrow's prayer times:
+
+``` islamic pray --tomorrow  ```
+
 ## Show the next prayer:
 
 ``` islamic pray --next ```

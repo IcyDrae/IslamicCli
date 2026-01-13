@@ -4,13 +4,9 @@ namespace IslamicCli.Command.Prayer
 {
     public class PrayerTimeService : IPrayerTimeService
     {
-        public Task<(
-                        Dictionary<string, string>,
-                        string City,
-                        string Country
-                    )> GetPrayerTimes()
+        public Task<(Dictionary<string, string>, string City, string Country)> GetPrayerTimes()
         {
-            return Request.GetPrayerTimes();
+            return Request.GetPrayerTimesAll();
         }
 
 	    public Task<(Dictionary<string, string>, string City, string Country)> GetTomorrow()
