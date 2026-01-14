@@ -1,0 +1,31 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="IslamicDesktop.Views.MainWindow"
+        Width="400" Height="300"
+        Title="Islamic Desktop">
+
+  <StackPanel Margin="20" Spacing="10">
+
+    <TextBlock Text="Next Prayer"
+               FontSize="22"
+               HorizontalAlignment="Center"/>
+
+    <TextBlock x:Name="PrayerNameText"
+               FontSize="18"
+               HorizontalAlignment="Center"/>
+
+    <TextBlock x:Name="PrayerTimeText"
+               FontSize="16"
+               HorizontalAlignment="Center"/>
+
+    <TextBlock x:Name="CountdownText"
+               FontSize="24"
+               FontWeight="Bold"
+               HorizontalAlignment="Center"/>
+
+    <Button Content="Refresh"
+            Click="RefreshPrayer"/>
+
+  </StackPanel>
+</Window>
+
