@@ -19,9 +19,9 @@ namespace IslamicCli.Command
             _hijri.HijriAdjustment = -1;
         }
 
-        public string GetHijriCalendar(DateTime? now = null)
+        public string GetHijriCalendar(bool useColors = false)
         {
-            var today = now ?? DateTime.Now;
+            var today = DateTime.Now;
             int day = _hijri.GetDayOfMonth(today);
             int month = _hijri.GetMonth(today);
             int year = _hijri.GetYear(today);
@@ -31,8 +31,8 @@ namespace IslamicCli.Command
             sb.AppendLine(GetHeader(month, year));
             sb.AppendLine();
             sb.AppendLine(GetWeekDaysHeader());
-            sb.Append(BuildCalendarDays(day, month, year, daysInMonth));
-            sb.Append(BuildRamadanInfo(day, month, year, daysInMonth));
+            sb.Append(BuildCalendarDays(day, month, year, daysInMonth, useColors));
+            sb.Append(BuildRamadanInfo(day, month, year, daysInMonth, useColors));
 
             return sb.ToString();
         }
@@ -47,7 +47,7 @@ namespace IslamicCli.Command
             return "Mo Tu We Th Fr Sa Su";
         }
 
-        private string BuildCalendarDays(int today, int month, int year, int daysInMonth)
+        private string BuildCalendarDays(int today, int month, int year, int daysInMonth, bool useColors)
         {
             var sb = new StringBuilder();
 
@@ -59,7 +59,9 @@ namespace IslamicCli.Command
             for (int d = 1; d <= daysInMonth; d++)
             {
                 if (d == today)
-                    sb.Append($"\u001b[1;32m{d:00}\u001b[0m ");
+                   sb.Append(useColors
+                             ? $"\u001b[1;32m{d:00}\u001b[0m "
+                             : $"[{d:00}] ");
                 else
                     sb.Append($"{d:00} ");
 
@@ -71,7 +73,7 @@ namespace IslamicCli.Command
             return sb.ToString();
         }
 
-        private string BuildRamadanInfo(int day, int month, int year, int daysInMonth)
+        private string BuildRamadanInfo(int day, int month, int year, int daysInMonth, bool useColors)
         {
             var sb = new StringBuilder();
             int ramadanMonth = 9;
@@ -80,12 +82,16 @@ namespace IslamicCli.Command
             {
                 int daysUntilRamadan = CalculateDaysUntilRamadan(day, month, year, ramadanMonth);
                 sb.AppendLine();
-                sb.AppendLine($"\u001b[1;36mDays until Ramadan: {daysUntilRamadan}\u001b[0m");
+                sb.AppendLine(useColors
+                              ? $"\u001b[1;36mDays until Ramadan: {daysUntilRamadan}\u001b[0m"
+                              : $"Days until Ramadan: {daysUntilRamadan}");
             }
             else if (month == ramadanMonth)
             {
                 sb.AppendLine();
-                sb.AppendLine($"\u001b[1;36mRamadan Mubarak! Today is day {day} out of {daysInMonth} of Ramadan.\u001b[0m");
+               sb.AppendLine(useColors
+                             ? $"\u001b[1;36mRamadan Mubarak! Today is day {day} out of {daysInMonth} of Ramadan.\u001b[0m"
+                             : $"Ramadan Mubarak! Today is day {day} out of {daysInMonth} of Ramadan.");
             }
 
             return sb.ToString();

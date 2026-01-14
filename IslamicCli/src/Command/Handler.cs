@@ -195,7 +195,7 @@ namespace IslamicCli.Command
         private void HandleHijriCalendar()
         {
             Hijri Hijri = new Hijri();
-            string hijriDate = Hijri.GetHijriCalendar();
+            string hijriDate = Hijri.GetHijriCalendar(useColors: true);
             Console.WriteLine(hijriDate);
         }
 

@@ -1,8 +1,8 @@
+using System.Linq;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core;
 using Avalonia.Data.Core.Plugins;
-using System.Linq;
 using Avalonia.Markup.Xaml;
 using IslamicDesktop.ViewModels;
 using IslamicDesktop.Views;
@@ -16,17 +16,30 @@ public partial class App : Application
         AvaloniaXamlLoader.Load(this);
     }
 
+    
     public override void OnFrameworkInitializationCompleted()
     {
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            // Avoid duplicate validations from both Avalonia and the CommunityToolkit. 
-            // More info: https://docs.avaloniaui.net/docs/guides/development-guides/data-validation#manage-validationplugins
-            DisableAvaloniaDataAnnotationValidation();
-            desktop.MainWindow = new MainWindow
+            var mainWindow = new MainWindow();
+            desktop.MainWindow = mainWindow;
+
+#if MACOS
+            // On macOS, when the app is activated (dock clicked), show the window if hidden
+            desktop.Startup += (_, _) =>
             {
-                DataContext = new MainWindowViewModel(),
+                AppDomain.CurrentDomain.ProcessExit += (_, _) => { /* optional cleanup */ };
             };
+
+            desktop.Exit += (_, _) => { /* optional cleanup */ };
+
+            // Avalonia macOS: handle activated events
+            desktop.ApplicationLifetimeActivated += (_, _) =>
+            {
+                if (!mainWindow.IsVisible)
+                    mainWindow.Show();
+            };
+#endif
         }
 
         base.OnFrameworkInitializationCompleted();

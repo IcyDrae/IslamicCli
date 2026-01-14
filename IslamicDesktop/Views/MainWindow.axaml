@@ -1,31 +1,33 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         x:Class="IslamicDesktop.Views.MainWindow"
-        Width="400" Height="300"
+        WindowState="Maximized"
         Title="Islamic Desktop">
 
-  <StackPanel Margin="20" Spacing="10">
+  <DockPanel>
 
-    <TextBlock Text="Next Prayer"
-               FontSize="22"
-               HorizontalAlignment="Center"/>
+    <!-- Side Menu -->
+    <StackPanel DockPanel.Dock="Left"
+                Width="200"
+                Background="#EEE"
+                Spacing="10"
+                Margin="5">
 
-    <TextBlock x:Name="PrayerNameText"
-               FontSize="18"
-               HorizontalAlignment="Center"/>
+      <Button Content="Prayer Times" Click="ShowPrayerTimes"/>
+      <Button Content="Next Prayer" Click="ShowNextPrayer"/>
+      <Button Content="Dhikr" Click="ShowDhikr"/>
+      <Button Content="Random Dhikr" Click="ShowRandomDhikr"/>
+      <Button Content="Quran" Click="ShowQuran"/>
+      <Button Content="Hijri Calendar" Click="ShowHijri"/>
+      <Button Content="Fasting Days" Click="ShowFastingDays"/>
+      <Button Content="99 Names of Allah" Click="Show99Names"/>
 
-    <TextBlock x:Name="PrayerTimeText"
-               FontSize="16"
-               HorizontalAlignment="Center"/>
+    </StackPanel>
 
-    <TextBlock x:Name="CountdownText"
-               FontSize="24"
-               FontWeight="Bold"
-               HorizontalAlignment="Center"/>
+    <!-- Main Content Area -->
+    <ScrollViewer>
+        <ContentControl x:Name="MainContent" Margin="10"/>
+    </ScrollViewer>
 
-    <Button Content="Refresh"
-            Click="RefreshPrayer"/>
-
-  </StackPanel>
+  </DockPanel>
 </Window>
-
